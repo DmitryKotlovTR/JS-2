@@ -40,7 +40,7 @@ main {
     text-align: center;
     justify-content: center;
 }
-.by-btn {
+.buy-btn {
     text-decoration: none;
     display: inline-block;
     color: white;
@@ -55,7 +55,7 @@ main {
     box-shadow: 0 0 20px rgba(0, 0, 0, .1);
     transition: .5s;
 }
-.by-btn:hover {
+.buy-btn:hover {
 background-position: right center;
 }
 footer {
