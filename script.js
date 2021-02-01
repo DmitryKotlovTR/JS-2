@@ -23,6 +23,15 @@ class ProductList {
         ];
     }
 
+    totalCartPrice() {
+        let totalPrice = document.getElementById('product-list__total'); 
+        let sum = 0;
+        this.goods.forEach (good => { 
+            sum += good.price
+        });
+        totalPrice.innerText = `Итого  ${sum} рублей`;
+    }
+
     #render() {
         const block = document.querySelector(this.container);
 
@@ -55,3 +64,10 @@ class ProductItem {
     }
 }
 const productList = new ProductList();
+
+class Cart {
+    
+}
+class CartItem {
+
+}
