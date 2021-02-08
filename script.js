@@ -1,73 +1,126 @@
-class ProductList {
-    #goods;
-    #allProducts;
+var form = document.forms.regform;
+var spanErrorText = document.getElementsByClassName('error-text');
+var inputArea = document.getElementsByClassName('form-box__area');
 
-    constructor(container = '.products') {
-        this.container = container;
-        this.#goods = [];
-        this.#allProducts = [];
-        this.#fetchGoods();
-        this.#render();
+//очистка всех текстов с ошибками
+var clearErrorText = () => {
+    for (let n = 0; n < spanErrorText.length; n++) {
+        spanErrorText[n].innerText = ' ';
     }
+};
 
-    #fetchGoods() {
-        this.#goods = [
-            {id: 1, title: 'mouse', price: 500},
-            {id: 2, title: 'monitor', price: 6000},
-            {id: 3, title: 'printer', price: 15000},
-            {id: 4, title: 'keyboard', price: 1000},
-            {id: 5, title: 'mouse-2', price: 800},
-            {id: 6, title: 'monitor-2', price: 8000},
-            {id: 7, title: 'printer-2', price: 13000},
-            {id: 8, title: 'keyboard-2', price: 1500},
-        ];
-    }
+//очистка красной рамки в input с ошибками
+var clearInputArea = () => {
+    for (let n = 0; n < inputArea.length; n++) {
+        let classList = inputArea[n].classList;
+        console.log(classList);
 
-    totalCartPrice() {
-        let totalPrice = document.getElementById('product-list__total'); 
-        let sum = 0;
-        this.goods.forEach (good => { 
-            sum += good.price
-        });
-        totalPrice.innerText = `Итого  ${sum} рублей`;
-    }
-
-    #render() {
-        const block = document.querySelector(this.container);
-
-        for (let product of this.#goods) {
-            const productObject = new ProductItem(product);
-            console.log(productObject);
-            this.#allProducts.push(productObject);
-            block.insertAdjacentHTML('beforeend', productObject.render());
+        if (classList.contains('input_error') === true) {
+            classList.remove("input_error");
+            classList.remove("p_error");
         }
     }
-}
+};
 
-class ProductItem {
-    constructor(product, img='https://placehold.it/200x150') {
-        this.title = product.title;
-        this.price = product.price;
-        this.id = product.id;
-        this.img = img;
-    }
+//валидация формы глобальная функция 
+var formValidation = function(e) {
+    e.preventDefault();
+    console.log('Run validation');
 
-    render() {
-        return `<div class="product-item" data-id="${this.id}">
-              <img src="${this.img}" alt="Some img">
-              <div class="desc">
-                  <h3>${this.title}</h3>
-                  <p>${this.price}</p>
-                  <button class="buy-btn">Добавить в корзину</button>
-              </div>
-          </div>`;
-    }
-}
-const productList = new ProductList();
+    clearErrorText(); //очистка ВСЕХ текстов с ошибками
+    clearInputArea(); //очистка красной рамки в input с ошибками
 
-class Cart {
+    let name = form.elements.name;
+    let mail = form.elements.email;
+    let telephone = form.elements.telephone; 
     
-}
-class CartItem {
+    let result = true;
 
-}
+    if (nameValidation(name) == false) {
+        
+        result = false;
+    }
+
+    if (mailValidation(mail) == false) {
+        result = false;
+    }
+
+    if (telephoneValidation(telephone) == false) {
+        result = false;
+    }
+
+    if (result == false) {
+        document.getElementById('form-box__area__headline').innerText = ":( данные не приняты!"
+    }
+    if (result == true) {
+        document.getElementById('form-box__area__headline').innerText = "Спасибо! Ваши данные приняты!"
+    }
+    
+    return result;
+};
+
+
+//ИМЯ валидация 
+var nameValidation = (name) => {
+    console.log('funcNameValid');
+    
+    let regexp = /^[A-Za-zА-Яа-я ]+$/;
+
+    if (name.value == '') {
+        spanErrorText[0].innerText = 'Заполните поле!';
+        return false;
+    }
+    if (name.value.match(regexp)) { 
+        return true;
+    } else {
+        spanErrorText[0].innerText = 'Имя может содержать только буквы и пробел';
+        name.classList.add("input_error");
+        name.classList.add("p_error");
+        name.focus();
+        return false;
+    }
+};
+//Mail валидация 
+var mailValidation = (mail) => {
+    console.log('funcMailValid');
+    
+    let regexp = /^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\.)+[a-z]{2,6}$/;
+    
+    if (mail.value == '') {
+        spanErrorText[1].innerText = 'Заполните поле!';
+        return false;
+    }
+    if (mail.value.match(regexp)) { 
+        return true;
+    } else {
+       
+        spanErrorText[1].innerText = 'Адрес эл. почты может содежрать латинские буквы (@, . - _)';
+        mail.classList.add("input_error");
+        mail.classList.add("p_error");
+        mail.focus();
+        return false;
+    }
+};
+
+//telephone валидация 
+var telephoneValidation = (telephone) => {
+    console.log('funcPhoneValid');
+    
+    let regexp = /^\+\d{1}\(\d{3}\)\d{3}-\d{4}$/;
+    
+    if (telephone.value == '' ||  telephone.value == '+7(000)000-0000') {
+        spanErrorText[2].innerText = 'Заполните поле!';
+        return false;
+    }
+
+    if (telephone.value.match(regexp)) { 
+        return true;
+    } else {
+       
+        spanErrorText[2].innerText = 'Телефон введите в формате +7(000)000-0000';
+        telephone.classList.add("input_error");
+        telephone.classList.add("p_error");
+        telephone.focus();
+        return false;
+    }
+};
