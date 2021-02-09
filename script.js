@@ -2,14 +2,12 @@ var form = document.forms.regform;
 var spanErrorText = document.getElementsByClassName('error-text');
 var inputArea = document.getElementsByClassName('form-box__area');
 
-//очистка всех текстов с ошибками
 var clearErrorText = () => {
     for (let n = 0; n < spanErrorText.length; n++) {
         spanErrorText[n].innerText = ' ';
     }
 };
 
-//очистка красной рамки в input с ошибками
 var clearInputArea = () => {
     for (let n = 0; n < inputArea.length; n++) {
         let classList = inputArea[n].classList;
@@ -22,13 +20,12 @@ var clearInputArea = () => {
     }
 };
 
-//валидация формы глобальная функция 
 var formValidation = function(e) {
     e.preventDefault();
     console.log('Run validation');
 
-    clearErrorText(); //очистка ВСЕХ текстов с ошибками
-    clearInputArea(); //очистка красной рамки в input с ошибками
+    clearErrorText();
+    clearInputArea();
 
     let name = form.elements.name;
     let mail = form.elements.email;
@@ -59,8 +56,6 @@ var formValidation = function(e) {
     return result;
 };
 
-
-//ИМЯ валидация 
 var nameValidation = (name) => {
     console.log('funcNameValid');
     

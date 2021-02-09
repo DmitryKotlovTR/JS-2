@@ -17,10 +17,6 @@ button {
     color: red;
   }
   
-  .box-next-ex {
-    display: none;
-  }
-  
-  .box-next-ex span {
+  .box-next span {
     color: black;
   }
