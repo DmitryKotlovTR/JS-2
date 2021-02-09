@@ -1,1 +1,17 @@
-!
+.form-box .input_error,
+.form-box .p_error {
+    border-color: red;
+    color: red;
+}
+  
+.form-box .p_error {
+    color: red;
+}
+  
+.form-box .error-text {
+    color: red;
+}
+  
+.box-next span {
+    color: black;
+}
